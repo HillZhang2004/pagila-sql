@@ -1,14 +1,10 @@
-/*
- * Find the actor_id of every actor whose first name starts with the indicated string.
- * Order the results from low to hi.
- */
-CREATE OR REPLACE FUNCTION get_actor_ids(text) RETURNS TABLE(actor_id INTEGER) AS
-$$
--- FIXME: implementation goes here
-$$
-LANGUAGE SQL
-IMMUTABLE
-RETURNS NULL ON NULL INPUT;
+CREATE OR REPLACE FUNCTION get_actor_ids(text)
+RETURNS TABLE(actor_id INTEGER) AS $$
+    SELECT a.actor_id
+    FROM actor AS a
+    WHERE a.first_name ILIKE $1 || '%'
+    ORDER BY a.actor_id
+$$ LANGUAGE SQL IMMUTABLE RETURNS NULL ON NULL INPUT;
 
 SELECT * FROM get_actor_ids('a');
 SELECT * FROM get_actor_ids('b');
